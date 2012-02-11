@@ -2,6 +2,38 @@
 // 本文档自动生成，仅供测试运行
 class OrderAction extends Action
 {
+	public function deleteOrders()
+	{
+		$jsonInput = file_get_contents("php://input"); 
+		$jsonInput=$this->checkUTF8($jsonInput);
+		$decodedOrders=json_decode($jsonInput);
+		$result = array();
+		if (count($decodedOrders)>0) {
+			require_once('class.Order.php');
+			for($i=0;$i<count($decodedOrders);$i++)
+			{
+				$decodedOrder = $decodedOrders[$i];
+				$productName = $decodedOrder->productName;
+				$sqlExecute = "delete from tbOrder where productName = '$productName';";
+				$M = new Model();
+				$r = $M->execute($sqlExecute);
+				$order = new Order(
+					$decodedOrder->productName,
+					$decodedOrder->quantity
+					);
+				if ($r) {
+					$order->state="ok";
+				}
+				else
+				{
+					$order->state="fail";
+				}
+				array_push($result,$order);
+			}
+		}
+		$foo_json = json_encode($result);
+		echo $foo_json;
+	}
 	public function deleteOrder() {
 		$jsonInput = file_get_contents("php://input"); 
 		$jsonInput=$this->checkUTF8($jsonInput);

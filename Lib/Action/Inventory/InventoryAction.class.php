@@ -2,6 +2,124 @@
 
 class InventoryAction extends Action
 {
+	//盘亏
+	public function getInventoryResult_less()
+	{
+		$jsonInput = file_get_contents("php://input"); 
+		$jsonInput=$this->checkUTF8($jsonInput);
+		$decodedTags=json_decode($jsonInput);
+		$tags="";
+		for($i=0;$i<count($decodedTags);$i++)
+		{
+			$tagID = $decodedTags[$i];
+			$tags.=	$tagID->tag;
+			if ($i < count($decodedTags)-1) {
+				$tags.=	",";
+			}
+		}
+		$sqlSelect = "select productID,productName,produceDate
+				,productCategory,descript from tbProduct where 
+				productID in($tags);";
+		
+		$M = new Model();					
+		$list = $M->query($sqlSelect);
+		$result = array();
+		require_once('class.Product.php');
+		for($i = 0;$i < count($list);$i++)
+		{				
+			$product = new Product(
+				$list[$i]['productID'],
+				$list[$i]['productName'],
+				$list[$i]['produceDate'],
+				$list[$i]['productCategory'],
+				$list[$i]['descript']
+				);
+			array_push($result,$product);
+		}
+		$foo_json = json_encode($result);
+		
+		echo $foo_json;
+		return;		
+	}
+	//盘盈
+	public function getInventoryResult_more()
+	{
+		$jsonInput = file_get_contents("php://input"); 
+		$jsonInput=$this->checkUTF8($jsonInput);
+		$decodedTags=json_decode($jsonInput);
+		$tags="";
+		for($i=0;$i<count($decodedTags);$i++)
+		{
+			$tagID = $decodedTags[$i];
+			$tags.=	$tagID->tag;
+			if ($i < count($decodedTags)-1) {
+				$tags.=	",";
+			}
+		}
+		$sqlSelect = "select productID,productName,produceDate
+				,productCategory,descript from tbProduct where 
+				productID in($tags);";
+		$M = new Model();					
+		
+		$list = $M->query($sqlSelect);
+		$result = array();
+		require_once('class.Product.php');
+		for($i = 0;$i < count($list);$i++)
+		{				
+			$product = new Product(
+				$list[$i]['productID'],
+				$list[$i]['productName'],
+				$list[$i]['produceDate'],
+				$list[$i]['productCategory'],
+				$list[$i]['descript']
+				);
+			array_push($result,$product);
+		}
+		$foo_json = json_encode($result);
+		
+		echo $foo_json;
+		return;		
+	}
+	//物账相符
+	public function getInventoryResult_equal()
+	{
+		$jsonInput = file_get_contents("php://input"); 
+		$jsonInput=$this->checkUTF8($jsonInput);
+		$decodedTags=json_decode($jsonInput);
+		$tags="";
+		for($i=0;$i<count($decodedTags);$i++)
+		{
+			$tagID = $decodedTags[$i];
+			$tags.=	$tagID->tag;
+			if ($i < count($decodedTags)-1) {
+				$tags.=	",";
+			}
+		}
+		$sqlSelect = "select productID,productName,produceDate
+				,productCategory,descript from tbProduct where 
+				productID in($tags);";
+		$M = new Model();					
+		
+		$list = $M->query($sqlSelect);
+		$result = array();
+		require_once('class.Product.php');
+		for($i = 0;$i < count($list);$i++)
+		{				
+			$product = new Product(
+				$list[$i]['productID'],
+				$list[$i]['productName'],
+				$list[$i]['produceDate'],
+				$list[$i]['productCategory'],
+				$list[$i]['descript']
+				);
+			array_push($result,$product);
+		}
+		$foo_json = json_encode($result);
+		
+		echo $foo_json;
+		return;		
+		
+	}
 	//获取待出库单产品信息，暂时定义为获取订单信息
 	public function getProductList4deleteProductFromStorage()
 	{
@@ -432,37 +550,36 @@ class InventoryAction extends Action
 		
 		echo $foo_json;
 	}
-	//移动终端依据终端编号通过web服务获取盘点物资列表
-	public function getProductInfoList()
+	//获取盘点物资列表
+	public function getProductInfoForInventoryList()
 	{
-		$id = $_GET['id'];
-		if (empty($id)) {
-			echo 'false';
-			return;
-		}
-		
 		$jsonInput = file_get_contents("php://input"); 
-		$decodedCarPoint = json_decode($jsonInput);
-		$carid = $decodedCarPoint->strCarID;
-		$carid=$this->checkUTF8($carid);
-		
-		date_default_timezone_set("Asia/Shanghai");
-		$time= date("Y-m-d H:i:s");
-		$latitude = $decodedCarPoint->strLatitude;
-		$longitude = $decodedCarPoint->strLongitude;
-		$sqlExecute = "insert into T_CARPOINTS(CAR_ID ,CREATE_TIME ,LATITUDE ,LONGITUDE )
-				values( '$carid' ,'$time' ,'$latitude' ,'$longitude' );";
+		$decodedPara = json_decode($jsonInput);
+
+		$sqlSelect = "select  productID,productName,produceDate
+				,productCategory,descript from tbProduct where 
+				productStatus = '1' ;";
 		$M = new Model();
-		$r = $M->execute($sqlExecute);
-		if ($r) {
-			echo 'true';
+		$result = array();
+		$list = $M->query($sqlSelect);
+		if (count($list)>0) {
+			require_once('class.Product.php');
+			for($i = 0;$i < count($list);$i++)
+			{				
+				$product = new Product(
+					$list[$i]['productID'],
+					$list[$i]['productName'],
+					$list[$i]['produceDate'],
+					$list[$i]['productCategory'],
+					$list[$i]['descript']
+					);
+				array_push($result,$product);
+			}
 		}
-		else
-		{
-			echo 'false';
-		}
+		$foo_json = json_encode($result);
 		
-		return;
+		echo $foo_json;
+		return;	
 	}
 	//电脑终端依据时间通过web服务获取物资标签
 	public function getInventoryInfoList()

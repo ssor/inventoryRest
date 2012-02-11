@@ -21,9 +21,6 @@ return array(
 	'DB_NAME'=>'db.db3',
 	//************************************************************
 	
-	'APP_GROUP_LIST'=>'Inventory,IntelligentMarket',
-	'DEFAULT_GROUP'=>'Inventory', 
-	
 	// UDP para
 	'udp_host' => '127.0.0.1',
 	'udp_port' => 5000
