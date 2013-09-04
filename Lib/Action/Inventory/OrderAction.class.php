@@ -1,5 +1,5 @@
 <?php
-// 本文档自动生成，仅供测试运行
+
 class OrderAction extends Action
 {
 	public function deleteOrders()

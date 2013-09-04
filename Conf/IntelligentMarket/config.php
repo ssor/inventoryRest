@@ -17,7 +17,8 @@ return array(
 	//***********************************************************
 	// Sqlite config
 	'DB_TYPE'=>'pdo',	
-	'DB_DSN' => 'sqlite:'.dirname(__FILE__).'./db.db3', //相对于config目录的路径
+	'DB_DSN' => 'sqlite:./Conf/db.db3', //相对于index.php目录的路径
+	// 'DB_DSN' => 'sqlite:'.dirname(__FILE__).'./db.db3', //相对于config目录的路径
 	'DB_NAME'=>'db.db3',
 	//************************************************************
 	

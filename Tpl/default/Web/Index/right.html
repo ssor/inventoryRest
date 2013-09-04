@@ -1,0 +1,112 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <title>信息标准管理系统</title>
+	
+	 <load href='__PUBLIC__/Css/jquery-ui-1.8.16.custom.css' />
+    <load href='__PUBLIC__/Css/jquery-ui-timepicker-addon.css' />
+
+    <load href='__PUBLIC__/Css/common.css' />
+    <load href="__PUBLIC__/Js/mootools.js" />
+    <load href="__PUBLIC__/Js/Ajax/ThinkAjax.js" />
+    <load href="__PUBLIC__/Js/jquery.js" />
+    <load href="__PUBLIC__/Js/mootools.js" />
+    <script type="text/javascript" language="javascript" src="__PUBLIC__/Js/jquery.js"></script>
+
+	<script type="text/javascript" src="__PUBLIC__/Js/jquery-ui-1.8.16.custom.min.js"></script>
+	<script type="text/javascript" src="__PUBLIC__/Js/jquery-ui-timepicker-addon.js"></script>
+	<script type="text/javascript" src="__PUBLIC__/Js/jquery.ui.datepicker-zh-CN.js"></script>
+    <script type="text/javascript" language="JavaScript">
+	
+	        $(document).ready(function() {
+			$('#buyTime').datetimepicker(
+			{
+				//showSecond: false,
+				timeFormat: '',
+				dateFormat: 'yy-mm-dd'
+
+			}
+			);
+			
+			$('#buyTime').datetimepicker('setDate', (new Date()) );
+
+			$('#form1').submit(
+				function(e)
+				{
+					
+					if(!compareTime()){		
+						e.preventDefault();
+					}
+					else
+					{
+						$(this).submit();
+					}
+				}
+			);
+        });
+	
+        function add() {
+            ThinkAjax.sendForm('form1', '__URL__/insert', complete, 'result');
+            //$.post('__URL__/insert', $("#form1").serialize(),complete);
+        }
+        function addCollectionName() {
+            window.location.href = "__URL__/CollectionNameIndex";
+        }
+        function complete(data, status) {
+            if (status == 1)
+            //if (status=="success")
+            {
+                window.setTimeout(function() { window.location.href = '__URL__', 20000 });
+            }
+        }
+        function clear() {
+            // $("#name")[0].value = "";
+            //$("#tbname")[0].value = "";
+            //$("#comment")[0].value = "";
+            a = 1;
+            b = 2;
+
+        }
+    </script>
+
+    <style type="text/css">
+        .inputRight
+        {
+            width: 221px;
+        }
+    </style>
+
+</head>
+<body id = "bodycontent">
+    <div id = "maincontent"> 
+	    <div class = "divSubTitle">
+				产品信息查询
+	    </div>
+			<div id="divSubTitleTip">
+				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 请输入产品的唯一编号
+	    </div>
+    <form id="form1" name="form1" method='post' action="__URL__/productQuery">
+            <div class='DivOperateUpNoOperate'>
+        </div>
+    
+			<p>
+				<label class="labelLeft" >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+                产品编号：</label>
+				<input type="text" name="productID"  class="inputRight"
+				 value="">
+            <input type="submit" class="buttonOperate" value="查询"></p>
+
+<!--		<p>
+			<label class="labelLeft">
+                购买时间：</label>
+				<input type="text" name="buyTime" id="buyTime" value="{$defaultBuyTime}" />				
+			
+        </p>-->
+        <div class='DivOperateDown'>
+            <!--&nbsp;<input type="reset" class="buttonOperate" value="清空">-->
+        </div>
+    </form>
+    </div>
+</body>
+</html>

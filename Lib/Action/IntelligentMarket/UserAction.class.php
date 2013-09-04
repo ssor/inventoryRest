@@ -53,6 +53,33 @@ class UserAction extends Action
 		$foo_json = json_encode($user);
 		echo $foo_json;
 	}
+	public function updateUserYE()
+	{
+		$jsonInput = file_get_contents("php://input"); 
+		$jsonInput=$this->checkUTF8($jsonInput);
+		$decodedUser=json_decode($jsonInput);
+
+		$userEPC     =$decodedUser->userEPC    ;
+		
+		$userYE		 =$decodedUser->userYE		;
+
+		
+		// 下面将数据添加到数据库中
+		$sqlExecute = "update users set 余额 = '$userYE' where 用户EPC = '$userEPC';";
+		$M = new Model();
+		$r = $M->execute($sqlExecute);
+		require_once('class.User.php');
+		
+		if ($r) {
+			$user->state="ok";
+		}
+		else
+		{
+			$user->state="fail";
+		}
+		$foo_json = json_encode($user);
+		echo $foo_json;
+	}
 	public function getAllUsers() {
 		$M = new Model();					
 		
@@ -205,7 +232,7 @@ class UserAction extends Action
 		$jsonInput=$this->checkUTF8($jsonInput);
 		$decodedUser=json_decode($jsonInput);
 		$userEPC = $decodedUser->userEPC;
-		$userEPC = "123";
+		//$userEPC = "123";
 		$M = new Model();					
 		
 		if (C('DB_TYPE')== 'Sqlsrv') {

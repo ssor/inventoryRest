@@ -1,0 +1,86 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <title>车辆监控系统</title>
+    <load href='__PUBLIC__/Css/common.css' />
+    <load href='__PUBLIC__/Css/demo_table.css' />
+    <load href='__PUBLIC__/Css/demo_table_jui.css' />
+    <load href='__PUBLIC__/Css/demo_page.css' />
+    <load href='__PUBLIC__/Css/jquery-ui-1.8.4.custom.css' />
+
+    <script type="text/javascript" language="javascript" src="__PUBLIC__/Js/jquery.min.js"></script>
+
+    <script type="text/javascript" language="javascript" src="__PUBLIC__/Js/jquery.dataTables.js"></script>
+
+    <script type="text/javascript" language="javascript" src="__PUBLIC__/Js/jQTreeTable.js"></script>
+
+    <script type="text/javascript" charset="utf-8">
+        $(document).ready(function() {
+
+            $('#example').dataTable(
+				{
+				    "bPaginate": true,
+				    //"sScrollX": "100%",
+				    //"sScrollXInner": "110%",
+				    "bInfo": true,
+				    //"bAutoWidth": true,
+				    "bFilter": true,
+				    "sPaginationType": "full_numbers",
+				    "bJQueryUI": true
+				}
+				);
+        });
+        
+    </script>
+
+</head>
+<body id="bodycontent">
+    <div id="maincontent">
+        <div class="divSubTitle">
+            产品信息
+        </div>
+        <div id="divSubTitleTip">
+            您指定的编号为 {$productID} 产品的信息如下：
+            <br />
+        </div>
+        <div class='DivOperateUpNoOperate'>
+        </div>
+        <p>
+            <label class="labelLeft">
+                产品名称：</label>
+            <input type="text" name="endTime" id="endTime" value="{$productName}" />
+        </p>
+        <p>
+            <label class="labelLeft">
+                产品类别：</label>
+            <input type="text" name="endTime" id="Text2" value="{$productCategory}" />
+        </p>
+        <p>
+            <label class="labelLeft">
+                生产厂家：</label>
+            <input type="text" name="endTime" id="Text1" value="{$company}" />
+        </p>
+        <table cellpadding="0" cellspacing="0" border="0" class="display" id="example">
+            <thead>
+                <tr>
+                    <th>
+                        时间
+                    </th>
+                    <th>
+                        状态
+                    </th>
+                </tr>
+            </thead>
+            <tbody id="treet1">
+                <volist name="stateList" id="vo">
+					<tr class="odd">
+						<td >{$vo['actionTime']}</td>
+						<td >{$vo['action']}</td>
+					</tr>
+				</volist>
+            </tbody>
+        </table>
+    </div>
+</body>
+</html>

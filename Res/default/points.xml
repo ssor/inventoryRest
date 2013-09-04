@@ -1,0 +1,13 @@
+<?xml version="1.0" standalone="yes"?>
+<Points>
+  <point>
+    <time>2012-11-14 11:24:33</time>
+    <latitude>1234500</latitude>
+    <longitude>5432100</longitude>
+  </point>
+  <point>
+    <time>2012-11-14 11:24:56</time>
+    <latitude>1234500</latitude>
+    <longitude>5432100</longitude>
+  </point>
+</Points>
